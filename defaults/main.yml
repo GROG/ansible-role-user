@@ -1,0 +1,46 @@
+---
+
+# List of users
+user_list: []
+
+# List of users
+user_list_host: []
+
+# List of users
+user_list_group: []
+
+# Only add groups?
+user_append: no
+
+# Create home dir?
+user_createhome: yes
+
+# Force user deletion?
+user_force: no
+
+# Generate ssh key?
+user_generate_ssh_key: no
+
+# Move home dir?
+user_move_home: no
+
+# Allow uid to be non unique?
+user_none_unique: no
+
+# Remove user when deleting?
+user_remove: no
+
+# SSH key bits
+user_ssh_key_bits: 4096
+
+# SSH key file
+user_ssh_key_file: '.ssh/id_rsa'
+
+# User state
+user_state: present
+
+# System user?
+user_system: no
+
+# Update password
+user_update_password: always

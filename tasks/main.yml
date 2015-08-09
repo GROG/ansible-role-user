@@ -1,0 +1,33 @@
+---
+
+- name: Manage user
+  user:
+    append: "{{ item.append | default(user_append) }}"
+    comment: "{{ item.comment | default(omit) }}"
+    createhome: "{{ item.createhome | default(user_createhome) }}"
+    expires: "{{ item.expires | default(omit) }}"
+    force: "{{ item.force | default(user_force) }}"
+    generate_ssh_key: "{{ item.generate_ssh_key | default(user_generate_ssh_key) }}"
+    group: "{{ item.group | default(omit) }}"
+    groups: "{{ item.groups|join(',') if item.groups is defined else omit }}"
+    home: "{{ item.home | default(omit) }}"
+    login_class: "{{ item.login_class | default(omit) }}"
+    move_home: "{{ item.move_home | default(user_move_home) }}"
+    name: "{{ item.name }}"
+    non_unique: "{{ item.non_unique | default(user_none_unique) }}"
+    password: "{{ item.password | default(omit) }}"
+    remove: "{{ item.remove | default(user_remove) }}"
+    shell: "{{ item.shell | default(omit) }}"
+    ssh_key_bits: "{{ item.ssh_key_bits | default(user_ssh_key_bits) }}"
+    ssh_key_comment: "{{ item.ssh_key_comment | default(omit) }}"
+    ssh_key_file: "{{ item.ssh_key_file | default(user_ssh_key_file) }}"
+    ssh_key_passphrase: "{{ item.ssh_key_passphrase | default(omit) }}"
+    ssh_key_type: "{{ item.ssh_key_type | default (omit) }}"
+    state: "{{ item.state | default(user_state) }}"
+    system: "{{ item.system | default(user_system) }}"
+    uid: "{{ item.uid | default(omit) }}"
+    update_password: "{{ item.update_password | default(user_update_password) }}"
+  with_flattened:
+    - user_list
+    - user_list_host
+    - user_list_group
