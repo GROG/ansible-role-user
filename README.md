@@ -1,6 +1,6 @@
 # User
 
-[![Ansible Galaxy](http://img.shields.io/badge/galaxy-GROG.user-660198.svg?style=flat)](https://galaxy.ansible.com/list#/roles/)
+[![Ansible Galaxy](http://img.shields.io/badge/galaxy-GROG.user-660198.svg?style=flat)](https://galaxy.ansible.com/list#/roles/4730)
 [![Build Status](https://travis-ci.org/GROG/ansible-role-user.svg?branch=master)](https://travis-ci.org/GROG/ansible-role-user)
 
 A role for managing users.
@@ -46,10 +46,10 @@ the list can have following attributes:
 | `comment` | User description (aka GECOS) | no | / |
 | `createhome` | Create home directory? | no | `user_createhome` |
 | `expires` | Expiry data | no | / |
-| `force` | Force removal | no | `user_force` |
+| `force` | Use --force option when deleting a user | no | `user_force` |
 | `generate_ssh_key` | Generate ssh key?  | no | `user_generate_ssh_key` |
 | `group` | Users primary group | no | / |
-| `groups` | List of groups for the user ( ',' seperated) | no | / |
+| `groups` | List of groups for the user | no | / |
 | `home` | Home directory for the user | no | / |
 | `login_class` | Login class for BSD systems | no | / |
 | `move_home` | Move home directory | no | `user_move_home` |
@@ -75,6 +75,9 @@ user_list:
   - name: user1
   - name: user2
     uid: 1001
+    groups:
+      - test
+      - sudo
   - name: user3
     uid: 1002
     state: absent
