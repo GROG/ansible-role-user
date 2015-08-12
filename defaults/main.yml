@@ -30,6 +30,9 @@ user_none_unique: no
 # Remove user when deleting?
 user_remove: no
 
+# Users shell
+user_shell: '/bin/sh'
+
 # SSH key bits
 user_ssh_key_bits: 4096
 

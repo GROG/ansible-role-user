@@ -25,6 +25,7 @@ A role for managing users.
 | `user_move_home` | Default value for `move_home` |`no` |
 | `user_none_unique` | Default value for `none_unique` | `no` |
 | `user_remove` | Default value for `remove` | `no` |
+| `user_shell` | Default value for `shell` | '/bin/sh' |
 | `user_ssh_key_bits` | Default value for `ssh_key_bits` | 4096 |
 | `user_ssh_key_file` | Default value for `ssh_key_file` | '.ssh/id_rsa' |
 | `user_state` | Default user `state` | `present` |
@@ -57,7 +58,7 @@ the list can have following attributes:
 | `non_unique` | Allow none unique uid | no | `user_none_unique` |
 | `password` | Password for the user | no | / |
 | `remove` | Use --remove option when deleting a user | no | `user_remove` |
-| `shell` | Users shell | no | / |
+| `shell` | Users shell | no | `user_shell` |
 | `ssh_key_bits` | SSH key size | no | `user_ssh_key_bits` |
 | `ssh_key_comment` | SSH key comment | no | / |
 | `ssh_key_file` | SSH key file | no | `user_ssh_key_file` |
