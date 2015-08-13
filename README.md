@@ -94,15 +94,17 @@ None.
 ---
 - hosts: servers
   roles:
-  - { role: GROG.user
-      become: yes,
-        user_list: [
-          { name: user1,
-            state: present },
-          { name: user2,
-            uid: 1001 }
-        ]
-    }
+  - { role: GROG.user, become: yes }
+```
+
+Inside `group_vars/servers.yml`:
+
+```yaml
+user_list_group:
+  - name: user
+    uid: 1001
+  - name: test
+    state: absent
 ```
 
 ## License
