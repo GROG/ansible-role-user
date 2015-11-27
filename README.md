@@ -6,6 +6,7 @@
 A role for managing users.
 
 Following roles where designed to neatly work together with this role:
+
 - [authorized-key](https://galaxy.ansible.com/list#/roles/4737), for managing
   authorized-keys.
 - [sudo](https://galaxy.ansible.com/list#/roles/4765), for managing sudo
