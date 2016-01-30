@@ -11,6 +11,9 @@ addons:
     packages:
     - python-pip
 
+notifications:
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/
+
 install:
   # Install Ansible.
   - pip install ansible
@@ -35,8 +38,5 @@ script:
     && (echo 'Idempotence test: pass' && exit 0)
     || (echo 'Idempotence test: fail' && exit 1)
 
-  # Check if the test group is made.
+  # Check if the test user is added.
   - id test
-
-notifications:
-  webhooks: https://galaxy.ansible.com/api/v1/notifications/
