@@ -1,19 +1,19 @@
 # User
 
-[![Ansible Galaxy](http://img.shields.io/badge/galaxy-GROG.user-660198.svg?style=flat)](https://galaxy.ansible.com/GROG/user)
-[![Build Status](https://travis-ci.org/GROG/ansible-role-user.svg?branch=master)](https://travis-ci.org/GROG/ansible-role-user)
+[![Ansible Galaxy][galaxy_image]][galaxy_link]
+[![Build Status][travis_image]][travis_link]
+[![Latest tag][tag_image]][tag_url]
+[![Gitter chat][gitter_image]][gitter_url]
 
 A role for managing users.
 
 Following roles where designed to neatly work together with this role:
 
-- [authorized-key](https://galaxy.ansible.com/list#/roles/4737), for managing
-  authorized-keys.
-- [sudo](https://galaxy.ansible.com/list#/roles/4765), for managing sudo
-  rights.
+- [authorized-key][grog.authorized-key], for managing authorized-keys.
+- [sudo][grog.sudo], for managing sudo rights.
 
-The [management-user](https://galaxy.ansible.com/list#/roles/4793) role
-combines all these roles in one easy to use role.
+The [management-user][grog.management-user] role combines all these roles in
+one easy to use role.
 
 ## Requirements
 
@@ -118,12 +118,26 @@ user_list_group:
 ```
 
 ## Contributing
-
-All assistance, changes or ideas [welcome](https://github.com/GROG/ansible-role-user/issues)!
+All assistance, changes or ideas [welcome][issues]!
 
 ## Author
-
-By [G. Roggemans](https://github.com/groggemans)
+By [G. Roggemans][groggemans]
 
 ## License
 MIT
+
+[galaxy_image]:         http://img.shields.io/badge/galaxy-GROG.user-660198.svg?style=flat
+[galaxy_link]:          https://galaxy.ansible.com/GROG/user
+[travis_image]:         https://travis-ci.org/GROG/ansible-role-user.svg?branch=master
+[travis_link]:          https://travis-ci.org/GROG/ansible-role-user
+[tag_image]:            https://img.shields.io/github/tag/GROG/ansible-role-user.svg
+[tag_url]:              https://github.com/GROG/ansible-role-user/tags
+[gitter_image]:         https://badges.gitter.im/GROG/chat.svg
+[gitter_url]:           https://gitter.im/GROG/chat
+
+[grog.authorized-key]:  https://galaxy.ansible.com/GROG/authorized-key
+[grog.sudo]:            https://galaxy.ansible.com/GROG/sudo
+[grog.management-user]: https://galaxy.ansible.com/GROG/management-user
+
+[issues]:               https://github.com/GROG/ansible-role-user/issues
+[groggemans]:           https://github.com/groggemans
