@@ -28,6 +28,6 @@
     uid: "{{ item.uid | default(omit) }}"
     update_password: "{{ item.update_password | default(user_update_password) }}"
   with_flattened:
-    - user_list
-    - user_list_host
-    - user_list_group
+    - "{{ user_list }}"
+    - "{{ user_list_host }}"
+    - "{{ user_list_group }}"
