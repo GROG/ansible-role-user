@@ -23,7 +23,7 @@
     ssh_key_file: "{{ item.ssh_key_file | default(user_ssh_key_file) }}"
     ssh_key_passphrase: "{{ item.ssh_key_passphrase | default(omit) }}"
     ssh_key_type: "{{ item.ssh_key_type | default (omit) }}"
-    state: "{{ item.state | default(user_state) }}"
+    state: "{{ item.state | default(omit) }}"
     system: "{{ item.system | default(user_system) }}"
     uid: "{{ item.uid | default(omit) }}"
     update_password: "{{ item.update_password | default(user_update_password) }}"

@@ -39,9 +39,6 @@ user_ssh_key_bits: 4096
 # SSH key file
 user_ssh_key_file: '.ssh/id_rsa'
 
-# User state
-user_state: present
-
 # System user?
 user_system: no
 
