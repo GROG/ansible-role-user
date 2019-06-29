@@ -38,7 +38,6 @@ one easy to use role.
 | `user_shell` | Default value for `shell` | '/bin/sh' |
 | `user_ssh_key_bits` | Default value for `ssh_key_bits` | 4096 |
 | `user_ssh_key_file` | Default value for `ssh_key_file` | '.ssh/id_rsa' |
-| `user_state` | Default user `state` | `present` |
 | `user_system` | Default value for `system` | `no` |
 | `user_update_password` | Default value for `update_password` | `always` |
 
@@ -74,7 +73,7 @@ the list can have following attributes:
 | `ssh_key_file` | SSH key file | no | `user_ssh_key_file` |
 | `ssh_key_passphrase` | SSH key passphrase | no | / |
 | `ssh_key_type` | SSH key type | no | rsa |
-| `state` | User state | no | `user_state` |
+| `state` | User state | no | 'present' |
 | `system` | System account? | no | `user_system` |
 | `uid` | User id | no | / |
 | `update_password` | Update password if changed? | no | `user_update_password` |
