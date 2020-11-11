@@ -1,0 +1,9 @@
+---
+# RENAME THIS TO requirements.yaml TO HAVE MOLECULE TAKE notice of it.
+# roles your role requires to run or must be run in conjuction with
+#- src: geerlingguy.nginx
+#- src: geerlingguy.php
+#- src: git@bitbucket.org:sectigowebdevelopment/ansible-role-nginx.git
+#  scm: git
+#  version: master
+#  name: some-overriden-name

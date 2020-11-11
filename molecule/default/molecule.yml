@@ -1,0 +1,45 @@
+---
+dependency:
+  name: galaxy
+  options:
+    role-file: requirements.yml
+    force: ${MOL_DEP_RESOLVE:-true}
+#driver:
+#  name: docker
+#  # Dont resolve dependencies unless you have to
+#platforms:
+#  - name: "rolename"
+#    groups:
+#      - all
+#    image: molecule_debian:buster
+#    dockerfile: Dockerfile.j2
+#    pull: false
+#    command: /lib/systemd/systemd
+#    tmpfs:
+#      - /run
+#      - /tmp
+##    env:
+##      someenvvar: value
+#    volumes:
+#      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+#    exposed_ports:
+#      - 80/tcp
+#      - 443/tcp
+##    published_ports:
+##      - 0.0.0.0:8080:80/tcp
+##      - 0.0.0.0:8443:8443/tcp
+## privileged to get systemd working
+#    privileged: true
+## pre_build_image: true means PULL from docker hub
+#    pre_build_image: false
+#provisioner:
+#  name: ansible
+#  playbooks:
+#    prepare: prepare.yml
+#verifier:
+#  name: ansible
+## edit .yamllint to change linting settings
+#lint: |
+#  set -e
+#  yamllint .
+#  ansible-lint -c .ansible-lint meta/*.yml tasks/*.yml vars/main.yml handlers/*.yml

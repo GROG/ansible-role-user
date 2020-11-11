@@ -1,0 +1,20 @@
+---
+- name: test things
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: define packages, files, directories and other stuff you want to check lots of
+      set_fact:
+        required_files:
+          - path: "/home/dylanh/.zshrc"
+            mode: '0777'
+            owner: 'dlanh'
+            group: 'dlanh'
+            #        required_ports:
+            #          - port: 631
+            #            name: "cupsd"
+            #          - port: 22
+            #            name: "sshd:"
+
+    - name: include tests
+      include_tasks: molecule/default/tasks/verify_root.yml

@@ -1,0 +1,39 @@
+---
+- name: Verify
+  hosts: all
+  tasks:
+
+  # NOTE that verify.yml does not inherit values from your playbook in anyway, they are seperate playbooks and run seperately.
+
+  - name: define packages, files, directories and other stuff you want to check lots of
+    set_fact:
+#      required_files:
+#        - path: "/home/dylanh/something"
+#          isdir: false
+#          mode: '0755'
+#          owner: 'dylanh'
+#          group: 'users'
+#      required_services:
+#        # NOTE for systemd make sure you include ".service" as a suffix
+#        # This has been kept as a test so that we can check that services that dont listen on ports are running and enabled
+#        # Where a service running results in a listening port, then its best to use the port checks to ensure the right binary is
+#        # is listening on the appropriate port
+#        cron.service:
+#          state: "running"
+#          status: "enabled"
+#      required_ports:
+#        - port: 80
+#          name: nginx
+#        - port: 22
+#          name: sshd
+
+  - name: include the standard verifier. This is arguably somewhat redundant now that all verification tasks are in one file
+    include_tasks: ../default/tasks/verify_root.yml
+
+# NOTE: if you have a task you wish to exclude from the molecule idempotence check, you can either remove the idempotence phase entirely in molecule.yml
+# or you can exclude a specific task by adding the tag ```molecule-idempotence-notest``` to the task
+
+# WARNING: READ THIS is you are running port checks
+# # It assumes that the user you are running as has sudo permissions on netstat, so we can get the prog that is listening
+
+# Add role specific tests here

@@ -1,0 +1,198 @@
+---
+# verify_ports.yml
+# EXAMPLE
+#  - name: define packages, files, directories and other stuff you want to check lots of
+#    set_fact:
+#     required_ports:
+#       - port: 80
+#         name: "nginx:"
+#       - port: 443
+#         name: "nginx:"
+
+- name: only run this if there are port checks defined
+  block:
+    - name: port_index
+      set_fact:
+        # The item.port|int there is important, without that, we need to type cast all other item.port instances
+        # to string, otherwise ansible does not see the element as existing, and therefore in accordance with the "when"
+        # on the assert instance to check the port is listening, is skipped. This (to the passing eye) could be seen as
+        # "test success" whether the port was showing as listening or not
+        port_index: "{{ port_index| default({}) | combine( {item.port|int: item} ) }}"
+      loop: "{{ required_ports|flatten(levels=1) }}"
+
+    # NOTE: since listen_port_facts creates an array of listening ports, we'll need to traverse all entries and find the ones
+    # we're interested in. Therefore, unlike the other tests, port_index is required.
+    - name: populate listening port facts
+      listen_ports_facts:
+      become: true
+
+    - name: check programs a listening on the right ports
+      assert:
+        that: "{{ item.name == port_index[item.port].name }}"
+        msg: "FAILED: port {{ item.port }} is not being listened on by {{ port_index[item.port].name }} as defined in required_ports"
+      loop: "{{ ansible_facts.tcp_listen|flatten(levels=1) }}"
+      when: "port_index[item.port] is defined"
+  when:
+    - required_ports is defined
+    - required_ports != None
+    - required_ports|length>0
+
+# verify_file.yml
+# EXAMPLE
+#  - name: define packages, files, directories and other stuff you want to check lots of
+#    set_fact:
+#      required_files:
+#        - path: "/etc/nginx/dhparams.pem"
+#          mode: '0755'
+#          owner: 'www-data'
+#          group: 'www-data'
+
+# BLOCK START -----------------------------------------------------------------------------------------------
+- name: only execute the file checks if it looks like they are defined
+  block:
+    - name: stat required_files
+      stat:
+        path: "{{ item.path }}"
+      register: required_files_stat
+      become: true
+      no_log: true
+      loop: "{{ required_files|flatten(levels=1) }}"
+
+    - name: check required files actually exist
+      assert:
+        that: "{{ item.stat.exists }}"
+        msg: "FAILED: {{ item.invocation.module_args.path }} does not exist, and it should according to the unit tests"
+      loop: "{{ required_files_stat.results|flatten(levels=1) }}"
+
+    - name: check file modes are correct
+      assert:
+        #        that: "'{{ file_index[item.stat.path].mode }}' == '{{ item.stat.mode }}'"
+        that: "'{{ item.item.mode }}' == '{{ item.stat.mode }}'"
+        msg: >
+          FAILED: {{ item.invocation.module_args.path }} mode is not correct. Its currently {{ item.stat.mode }}
+          and it should be {{ item.item.mode }}
+      loop: "{{ required_files_stat.results|flatten(levels=1) }}"
+      when:
+        - item.item.mode is defined
+
+    - name: check files / dirs have the right owner & group
+      assert:
+        that: "'{{ item.item.owner }}' == '{{ item.stat.pw_name }}'"
+        msg: >
+          FAILED: {{ item.invocation.module_args.path }} owner is not correct. The path is currently has owner:{{ item.stat.pw_name }}
+          but it should be {{ item.item.owner }} according to the unit test
+      loop: "{{ required_files_stat.results|flatten(levels=1) }}"
+      when:
+        - item.item.owner is defined
+
+    - name: check files / dirs have the right group
+      assert:
+        that: "'{{ item.item.group }}' == '{{ item.stat.gr_name }}'"
+        msg: >
+          FAILED: {{ item.invocation.module_args.path }} group is not correct. The path is currently has group:{{ item.stat.gr_name }}
+          but it should be {{ item.item.group }} according to the unit test
+      loop: "{{ required_files_stat.results|flatten(levels=1) }}"
+      when:
+        - item.item.group is defined
+
+    #- name: slurp files so we can check for requiredstr's
+    #  slurp:
+    #    src: "{{ item.path }}"
+    #  register: slurpedfiles
+    #  loop: "{{ required_files|flatten(levels=1) }}"
+    #  become: true
+    #  when:
+    #    - item.requiredstr is defined
+
+    # TODO: might be able to use regex_search here, with the multi line option to add some flexibility this test
+    #- name: check file contents
+    #  assert:
+    #    that: "{{ item.item.requiredstr in item.content | b64decode }}"
+    #    msg: "FAILED: {{ item.item.requiredstr }} is not in file {{ item.source }} and should be according to the unit tests"
+    #  loop: "{{ slurpedfiles.results|flatten(levels=1) }}"
+    #  when:
+    #    - item.item.requiredstr is defined
+  when:
+    - required_files is defined
+    - required_files != None
+    - required_files|length>0
+
+# BLOCK END -----------------------------------------------------------------------------------------------
+# verify_service.yml
+# EXAMPLE
+#  - name: define packages, files, directories and other stuff you want to check lots of
+#    set_fact:
+#      required_services:
+#        nginx.service:
+#          state: running
+#
+- name: only run this if required_services is defined
+  block:
+    - name: if required_services is not set OR is empty, then we need to define it as an empty dict
+      set_fact:
+        required_services: {}
+      when:
+        - (required_services is not defined or required_services == None)
+
+    - name: populate service facts
+      service_facts:
+
+    - name: check services are RUNNING as required
+      assert:
+        that: "{{ ansible_facts.services[item.key].state == item.value.state }}"
+        msg: "FAILED: {{ item.key }} state is {{ ansible_facts.services[item.key].state }} and it should be {{ item.value.state }} according to the unit tests"
+      loop: "{{ required_services|dict2items }}"
+  when:
+    - required_services is defined
+    - required_services != None
+    - required_services|length>0
+
+# EXAMPLE
+#  - name: define packages, files, directories and other stuff you want to check lots of
+#    set_fact:
+#      set_fact:
+#        required_redirects:
+#          - scheme: "http"
+#            domain: "ssl.comodoca.com"
+#            url: "customer/login"
+#            status: "HTTP/1.1 301 Moved Permanently"
+#            location: https://ssl.comodoca.com
+#          - scheme: "https"
+#            domain: "ssl.comodoca.com"
+#            url: ""
+#            status: "HTTP/2 301"
+#            location: https://ssl.comodo.com
+#
+# NOTE: Expects curl to be installed
+# NOTE you dont need to add a trailing or preceeding slash to the domain or url (respectively) it will be added wwhen the request is made
+# NOTE You can get the exact status by running ```curl -I <url>``` and checking the first line
+# Tests are run on the target host using host headers to hit the right vhost and the default ip address for the instance
+# add hosts entries to the remote host to ensure we're going to hit the right instance and not (for example) the live instance
+
+- name: only run this if test_redirects is defined
+  block:
+    - name: curl to see if the redirect is as expected
+      shell: "curl -sI --insecure --header 'Host: {{ item.domain }}' {{ item.scheme }}://{{ ansible_default_ipv4.address }}/{{ item.url | default('') }}"
+      args:
+        warn: false
+      register: curlresults
+      loop: "{{ required_redirects }}"
+
+    - name: check the status codes
+      assert:
+        that:
+          - item.stdout_lines[0] | regex_search("HTTP/(1.1|2)\s" + item.item.status|string)
+        msg: "FAILED: Item status is not correct for url [{{ item.item.scheme }}://{{ item.item.domain }}]. Status reported from test is [{{ item.stdout_lines[0] | regex_search('[1-5][0-9]{2}') }}], The expected value is [{{ item.item.status }}]. Expected location is [{{ item.item.location }}]"
+      loop: "{{ curlresults.results }}"
+
+    - name: check the locations
+      assert:
+        that:
+          - item.stdout | regex_search("[lL]ocation:\s" + item.item.location + "\/?(\n|$)")
+        msg: "FAILED: Location is not correct for url [{{ item.item.scheme }}://{{ item.item.domain }}]. The location reported from the test is [{{ item.stdout | regex_search('[Ll]ocation:\\s.+$') | regex_replace('[lL]ocation:\\s') }}], The expected value is [{{ item.item.location }}]"
+      loop: "{{ curlresults.results }}"
+      when: item.item.location is defined
+  when:
+    - required_redirects is defined
+    - required_redirects != None
+    - required_redirects|length>0

@@ -1,0 +1,19 @@
+---
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+exclude: '\.bin$|snakeoil'
+fail_fast: true
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.1.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+      - id: check-merge-conflict
+      - id: detect-private-key
+  - repo: https://gitea.sectigo.net/sectigo/pre-commit-hooks.git
+    rev: 0fd87a9c931865bd343233ecc6bfb015b5e7f037
+    hooks:
+      - id: check-ansible-vault
