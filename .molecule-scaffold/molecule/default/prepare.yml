@@ -1,0 +1,41 @@
+---
+# A place to prep your container / vm for something your role will rely on but not actually do. You might consider baking it into your container / vm image if its not sensitive
+- hosts: all
+  gather_facts: true
+  tasks:
+#    - name: include scenario defaults
+#      include_vars:
+#        dir: ./vars/
+#        extensions:
+#          - yml
+#          - yaml
+#
+#    - name: copy the certs over
+#      copy:
+#        src: ../../files/ssl
+#        dest: /etc/nginx/
+#        owner: root
+#        mode: '0755'
+#
+#        Helpful environment variables
+#        PY_COLORS=1|0
+#        ANSIBLE_FORCE_COLOR=1|0
+#
+#        MOLECULE_NO_LOG=false - if you get an error during setup but it says no_log: is true
+#
+#        Molecule runtime environment variables:
+#        MOLECULE_FILE=/home/dylanh/.cache/molecule/ansible.rolewebserver/default/molecule.yml
+#        MOLECULE_VERIFIER_NAME=ansible
+#        MOLECULE_DEPENDENCY_NAME=galaxy
+#        MOLECULE_SCENARIO_DIRECTORY=/home/dylanh/development/ansible.rolewebserver/molecule/default
+#        MOLECULE_INVENTORY_FILE=/home/dylanh/.cache/molecule/ansible.rolewebserver/default/inventory/ansible_inventory.yml
+#        MOLECULE_INSTANCE_CONFIG=/home/dylanh/.cache/molecule/ansible.rolewebserver/default/instance_config.yml
+#        MOLECULE_PROVISIONER_NAME=ansible
+#        MOLECULE_DEBUG=False
+#        MOLECULE_DRIVER_NAME=docker
+#        MOLECULE_VERIFIER_TEST_DIRECTORY=/home/dylanh/development/ansible.rolewebserver/molecule/default/molecule
+#        MOLECULE_STATE_FILE=/home/dylanh/.cache/molecule/ansible.rolewebserver/default/state.yml
+#        MOLECULE_SCENARIO_NAME=default
+#        MOLECULE_ENV_FILE=/home/dylanh/development/ansible.rolewebserver/.env.yml
+#        MOLECULE_PROJECT_DIRECTORY=/home/dylanh/development/ansible.rolewebserver
+#        MOLECULE_EPHEMERAL_DIRECTORY=/home/dylanh/.cache/molecule/ansible.rolewebserver/default

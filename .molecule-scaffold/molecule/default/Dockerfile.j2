@@ -1,0 +1,30 @@
+FROM debian:buster
+LABEL maintainer="Dylan Humphreys"
+LABEL description="adapted from Jeff Geerling's Debian:buster"
+
+ENV DEBIAN_FRONTEND noninteractive
+
+# Install dependencies.
+RUN echo 'deb http://deb.debian.org/debian buster-backports main' > /etc/apt/sources.list.d/buster-backports.list \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends -t buster-backports systemd \
+    && apt-get install -y --no-install-recommends \
+       sudo systemd-sysv \
+       build-essential curl python-openssl wget libffi-dev libssl-dev \
+       python-pip python-dev python-setuptools python-wheel \
+       less vim rsync procps gpg gpg-agent net-tools locales \
+       default-mysql-client cron acl nfs-common default-mysql-client \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -Rf /usr/share/doc && rm -Rf /usr/share/man \
+    && apt-get clean \
+    && rm -f /lib/systemd/system/multi-user.target.wants/getty.target \
+    && mkdir -p /var/www/html2 \
+    && mkdir -p /home/sites \
+    && useradd -ms /bin/bash admin -G sudo \
+    && rm /etc/apt/sources.list.d/buster-backports.list
+
+# Make sure systemd doesn't start agettys on tty[1-6].
+EXPOSE 80/tcp
+EXPOSE 443/tcp
+VOLUME ["/sys/fs/cgroup"]
+CMD ["/lib/systemd/systemd"]

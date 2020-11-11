@@ -1,0 +1,8 @@
+skip_list:
+  - '306'
+  - '405'
+  - '503'
+  - '106'
+exclude_paths:
+  - molecule/*
+  - .molecule-scaffold/molecule/*

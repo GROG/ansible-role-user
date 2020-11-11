@@ -1,0 +1,23 @@
+---
+dependency:
+  name: galaxy
+  options:
+    force: false
+driver:
+  # You will need molecule-ec2 python module installed to use this
+  # Its installed by default by mkansiblerole
+  name: ec2
+platforms:
+  - name: ansible.web-aws
+    image: ami-083d24fb90054e5f0
+    instance_type: t2.micro
+    vpc_subnet_id: subnet-12345566
+    group: secutiry-group
+    instance_tags:
+      Name: molecule-test
+      environment: test
+      provisioner: molecule
+provisioner:
+  name: ansible
+verifier:
+  name: ansible
