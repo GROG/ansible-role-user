@@ -1,0 +1,18 @@
+---
+gsuser_list:
+  - name: "{{ wsbase_user_name }}"
+    uid: 1001
+    shell: /usr/bin/zsh
+    home: "{{ wsbase_user_dir }}"
+    createhome: true
+    groups:
+      - wheel
+gsuser_extra_dirs:
+  - {path: "{{ wsbase_user_dir }}/.virtualenvs", owner: "{{ wsbase_user_name }}", group: "{{ wsbase_user_name }}", mode: '0764'}
+  - {path: "{{ wsbase_user_dir }}/development", owner: "{{ wsbase_user_name }}", group: "{{ wsbase_user_name }}", mode: '0774'}
+
+authorized_key_list:
+  - name: dylanh
+    authorized_keys:
+      - key: "{{ lookup('file','files/ssh/hoff.pub') }}"
+      - key: "{{ lookup('file','files/ssh/geosword.pub') }}"

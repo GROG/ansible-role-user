@@ -4,10 +4,26 @@ dependency:
 driver:
   name: docker
 platforms:
-  - name: instance
-    image: docker.io/pycontribs/centos:8
-    pre_build_image: true
+  - name: "geosword-user"
+    groups:
+      - arch
+    image: archlinux:20200908
+    command: /lib/systemd/systemd
+    tmpfs:
+      - /run
+      - /tmp
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: true
+    pre_build_image: ${MOL_DEP_BUILD_IMAGE:-true}
+    pull: true
 provisioner:
   name: ansible
+  playbooks:
+    prepare: prepare.yml
 verifier:
   name: ansible
+lint: |
+  set -e
+  yamllint .
+  ansible-lint -c .ansible-lint meta/*.yml tasks/*.yml vars/main.yml handlers/*.yml

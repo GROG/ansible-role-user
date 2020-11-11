@@ -1,0 +1,7 @@
+---
+wsbase_user_name: dylanh
+wsbase_user_dir: "/home/{{ wsbase_user_name }}"
+wsbase_additional_packages:
+  - openssh
+wsbase_pip_packages:
+  - virtualenvwrapper

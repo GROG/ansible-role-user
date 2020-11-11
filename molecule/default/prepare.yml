@@ -1,0 +1,10 @@
+---
+- name: prepare the container for zsh
+  hosts: arch
+  gather_facts: false
+  tasks:
+    - name: "Include pre-reqs"
+      include_role:
+        name: "{{ item }}"
+      loop:
+        - geosword.base

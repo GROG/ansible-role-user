@@ -1,46 +1,46 @@
 ---
 
 # List of users
-user_list: []
+gsuser_list: []
 
 # List of users
-user_list_host: []
+gsuser_list_host: []
 
 # List of users
-user_list_group: []
+gsuser_list_group: []
 
 # Only add groups?
-user_append: no
+gsuser_append: false
 
 # Create home dir?
-user_createhome: yes
+gsuser_createhome: true
 
 # Force user deletion?
-user_force: no
+gsuser_force: false
 
 # Generate ssh key?
-user_generate_ssh_key: no
+gsuser_generate_ssh_key: false
 
 # Move home dir?
-user_move_home: no
+gsuser_move_home: false
 
-# Allow uid to be non unique?
-user_none_unique: no
+# Allow uid to be none unique?
+gsuser_none_unique: false
 
 # Remove user when deleting?
-user_remove: no
+gsuser_remove: false
 
 # Users shell
-user_shell: '/bin/sh'
+gsuser_shell: '/bin/sh'
 
 # SSH key bits
-user_ssh_key_bits: 4096
+gsuser_ssh_key_bits: 4096
 
 # SSH key file
-user_ssh_key_file: '.ssh/id_rsa'
+gsuser_ssh_key_file: '.ssh/id_rsa'
 
 # System user?
-user_system: no
+gsuser_system: false
 
 # Update password
-user_update_password: always
+gsuser_update_password: always
