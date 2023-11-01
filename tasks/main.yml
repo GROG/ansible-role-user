@@ -27,7 +27,4 @@
     system: "{{ item.system | default(user_system) }}"
     uid: "{{ item.uid | default(omit) }}"
     update_password: "{{ item.update_password | default(user_update_password) }}"
-  with_flattened:
-    - "{{ user_list }}"
-    - "{{ user_list_host }}"
-    - "{{ user_list_group }}"
+  loop: "{{ user_list + user_list_host + user_list_group | flatten(levels=1) }}"
